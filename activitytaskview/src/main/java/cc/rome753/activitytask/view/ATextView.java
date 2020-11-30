@@ -5,14 +5,13 @@ import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
-
-import androidx.appcompat.widget.AppCompatTextView;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import cc.rome753.activitytask.model.LifecycleInfo;
 
 /**
@@ -22,7 +21,7 @@ import cc.rome753.activitytask.model.LifecycleInfo;
 
 public class ATextView extends AppCompatTextView implements Observer {
 
-    private static AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(8, true);
+    private static RelativeSizeSpan relativeSizeSpan = new RelativeSizeSpan(0.8f);
 
     public ATextView(Context context) {
         this(context, null);
@@ -35,7 +34,7 @@ public class ATextView extends AppCompatTextView implements Observer {
     public ATextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setMaxLines(1);
-        setTextSize(10);
+        setTextSize(15);
     }
 
     public void setInfoText(String s, String lifecycle) {
@@ -51,11 +50,11 @@ public class ATextView extends AppCompatTextView implements Observer {
     private void addLifecycle(String s, String lifecycle) {
         lifecycle = lifecycle.replace("onFragment", "");
         lifecycle = lifecycle.replace("onActivity", "");
-        lifecycle = lifecycle.replace("SaveInstanceState", "SIS");
+        lifecycle = lifecycle.replace("SaveInstanceState", "SaveState");
 
         setTextColor(lifecycle.contains("Resume") ? Color.YELLOW : Color.WHITE);
         SpannableString span = new SpannableString(s + lifecycle);
-        span.setSpan(absoluteSizeSpan, s.length(), span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(relativeSizeSpan, s.length(), span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         setText(span);
     }
 
